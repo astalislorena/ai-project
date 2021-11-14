@@ -62,28 +62,26 @@ class Mouse:
         self.y = y
         self.max = maps.dimensions[index]
 
-    def moveDSF(self, detectedMap, stack, cat):
+    def moveDSF(self, detectedMap, stack):
         stackLen = len(stack)
-        (catX, catY) = cat
-        if self.x > 0 and self.y in range(0, self.max) and catX != self.x - 1 and catY != self.y and (
+        print(self.x, self.y)
+        if self.x > 0 and (
                 detectedMap.surface[self.x - 1][self.y] == 0 or detectedMap.surface[self.x - 1][self.y] == -1):
             stack.append([self.x - 1, self.y])
-        elif self.y < self.max - 1 and self.x in range(0, self.max) and catX != self.x and catY != self.y + 1 and (
+        elif self.y < self.max - 1 and (
                 detectedMap.surface[self.x][self.y + 1] == 0 or detectedMap.surface[self.x][self.y + 1] == -1):
             stack.append([self.x, self.y + 1])
-        elif self.x < self.max - 1 and self.y in range(0, self.max) and catX != self.x + 1 and catY != self.y and (
+        elif self.x < self.max - 1 and (
                 detectedMap.surface[self.x + 1][self.y] == 0 or detectedMap.surface[self.x + 1][self.y] == -1):
-            if detectedMap.surface[self.x + 1][self.y] == -1:
-                print("CAUGHT CHEESE")
             stack.append([self.x + 1, self.y])
-        elif self.y > 0 and self.x in range(0, self.max) and catX != self.x and catY != self.y - 1 and (
+        elif self.y > 0 and (
                 detectedMap.surface[self.x][self.y - 1] == 0 or detectedMap.surface[self.x][self.y - 1] == -1):
             stack.append([self.x, self.y - 1])
         newStackLen = len(stack)
 
         if stackLen == newStackLen:
             try:
-                detectedMap.surface[self.x][self.y] = 2
+                # detectedMap.surface[self.x][self.y] = 2
                 newCoordinates = stack.pop()
                 newCoordinates = stack[-1]
                 self.x = newCoordinates[0]
@@ -109,20 +107,20 @@ class Cat:
 
     def moveDSF(self, detectedMap, stack):
         stackLen = len(stack)
-        print(self.x, self.y)
-        print(detectedMap.surface[self.x][self.y])
-        if self.x > 0 and self.y in range(0, self.max) and (
-                detectedMap.surface[self.x - 1][self.y] != 1):
+
+        if self.x > 0 and (
+                detectedMap.surface[self.x - 1][self.y] == 0 or detectedMap.surface[self.x - 1][self.y] == -1):
             stack.append([self.x - 1, self.y])
-        elif self.y < self.max - 1 and self.x in range(0, self.max) and (
-                detectedMap.surface[self.x][self.y + 1] != 1):
+        elif self.y < self.max - 1 and (
+                detectedMap.surface[self.x][self.y + 1] == 0 or detectedMap.surface[self.x][self.y + 1] == -1):
             stack.append([self.x, self.y + 1])
-        elif self.y > 0 and self.x in range(0, self.max) and (
-                detectedMap.surface[self.x][self.y - 1] != 1):
-            stack.append([self.x, self.y - 1])
-        elif self.x < self.max - 1 and self.y in range(0, self.max) and (
-                detectedMap.surface[self.x + 1][self.y] != 1):
+        elif self.x < self.max - 1 and (
+                detectedMap.surface[self.x + 1][self.y] == 0 or detectedMap.surface[self.x + 1][self.y] == -1):
             stack.append([self.x + 1, self.y])
+        elif self.y > 0 and (
+                detectedMap.surface[self.x][self.y - 1] == 0 or detectedMap.surface[self.x][self.y - 1] == -1):
+            stack.append([self.x, self.y - 1])
+        newStackLen = len(stack)
 
         newStackLen = len(stack)
 
@@ -158,8 +156,8 @@ def main(index):
 
     # we position the mouse somewhere in the area
     mouseStack = []
-    mouseX = randint(0, m.n)
-    mouseY = randint(0, m.n)
+    mouseX = randint(0, m.n - 1)
+    mouseY = randint(0, m.n - 1)
 
     mouseStack.append([mouseX, mouseY])
     mouse = Mouse(index, mouseX, mouseY)
@@ -168,8 +166,8 @@ def main(index):
 
     # we position the cat somewhere in the area
     catStack = []
-    catX = randint(0, m.n)
-    catY = randint(0, m.n)
+    catX = randint(0, m.n - 1)
+    catY = randint(0, m.n - 1)
 
     catStack.append([catX, catY])
     cat = Cat(index, catX, catY)
@@ -189,7 +187,7 @@ def main(index):
             if event.type == pygame.QUIT:
                 running = False
         time.sleep(0.3)
-        if mouse.moveDSF(m, mouseStack, (cat.x, cat.y)) == 1:
+        if mouse.moveDSF(m, mouseStack) == 1:
             break
         if cat.moveDSF(m, catStack) == 1:
             break
@@ -214,4 +212,4 @@ def main(index):
 # (if you import this as a module then nothing is executed)
 if __name__ == "__main__":
     # call the main function
-    main(0)
+    main(1)
