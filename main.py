@@ -98,27 +98,28 @@ class Mouse:
             self.y = newCoordinates[1]
 
     def moveBFS(self, detectedMap, queue):
-        queueLen = len(queue)
-
         if self.x > 0 and (
-                detectedMap.surface[self.x - 1][self.y] == 0 or detectedMap.surface[self.x - 1][self.y] == -1):
+                detectedMap.surface[self.x - 1][self.y] < 1):
             queue.insert(0, [self.x - 1, self.y])
         if self.y < self.max - 1 and (
-                detectedMap.surface[self.x][self.y + 1] == 0 or detectedMap.surface[self.x][self.y + 1] == -1):
+                detectedMap.surface[self.x][self.y + 1] < 1):
             queue.insert(0, [self.x, self.y + 1])
         if self.x < self.max - 1 and (
-                detectedMap.surface[self.x + 1][self.y] == 0 or detectedMap.surface[self.x + 1][self.y] == -1):
+                detectedMap.surface[self.x + 1][self.y] < 1):
             queue.insert(0, [self.x + 1, self.y])
         if self.y > 0 and (
-                detectedMap.surface[self.x][self.y - 1] == 0 or detectedMap.surface[self.x][self.y - 1] == -1):
+                detectedMap.surface[self.x][self.y - 1] < 1):
             queue.insert(0, [self.x, self.y - 1])
-        newQueueLen = len(queue)
 
-        detectedMap.surface[self.x][self.y] = 2
-        newCoordinates = queue.pop(0)
-        print(newCoordinates)
-        self.x = newCoordinates[0]
-        self.y = newCoordinates[1]
+        try:
+            detectedMap.surface[self.x][self.y] = 2
+            newCoordinates = queue.pop(0)
+            print(newCoordinates)
+            self.x = newCoordinates[0]
+            self.y = newCoordinates[1]
+        except IndexError:
+            print("here")
+            return 1
 
 
 class Cat:
@@ -142,7 +143,6 @@ class Cat:
         elif self.y > 0 and (
                 detectedMap.surface[self.x][self.y - 1] == 0 or detectedMap.surface[self.x][self.y - 1] == -1):
             stack.append([self.x, self.y - 1])
-        newStackLen = len(stack)
 
         newStackLen = len(stack)
 
@@ -162,6 +162,27 @@ class Cat:
                 return 1
             self.x = newCoordinates[0]
             self.y = newCoordinates[1]
+
+    def moveBFS(self, detectedMap, queue):
+        if self.x > 0 and (
+                detectedMap.surface[self.x - 1][self.y] == 0 or detectedMap.surface[self.x - 1][self.y] == -1):
+            queue.insert(0, [self.x - 1, self.y])
+        if self.y < self.max - 1 and (
+                detectedMap.surface[self.x][self.y + 1] == 0 or detectedMap.surface[self.x][self.y + 1] == -1):
+            queue.insert(0, [self.x, self.y + 1])
+        if self.x < self.max - 1 and (
+                detectedMap.surface[self.x + 1][self.y] == 0 or detectedMap.surface[self.x + 1][self.y] == -1):
+            queue.insert(0, [self.x + 1, self.y])
+        if self.y > 0 and (
+                detectedMap.surface[self.x][self.y - 1] == 0 or detectedMap.surface[self.x][self.y - 1] == -1):
+            queue.insert(0, [self.x, self.y - 1])
+        try:
+            newCoordinates = queue.pop(0)
+            print(newCoordinates)
+            self.x = newCoordinates[0]
+            self.y = newCoordinates[1]
+        except IndexError:
+            return 1
 
 
 def main(index):
@@ -190,10 +211,12 @@ def main(index):
 
     # we position the cat somewhere in the area
     catStack = []
+    catQueue = []
     catX = randint(0, m.n - 1)
     catY = randint(0, m.n - 1)
 
     catStack.append([catX, catY])
+    catQueue.append([catX, catY])
     cat = Cat(index, catX, catY)
 
     screen = pygame.display.set_mode((20 * (m.n - 1), 20 * m.n))
@@ -211,10 +234,15 @@ def main(index):
             if event.type == pygame.QUIT:
                 running = False
         time.sleep(0.3)
+        # if mouse.moveDSF(m, mouseStack) == 1:
+        #     break
         if mouse.moveBFS(m, mouseQueue) == 1:
             break
-        if cat.moveDSF(m, catStack) == 1:
+        # if cat.moveDSF(m, catStack) == 1:
+        #     break
+        if cat.moveBFS(m, catQueue) == 1:
             break
+
         if cat.x == mouse.x and cat.y == mouse.y:
             print("CAT WINS")
             running = False
