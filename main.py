@@ -1,7 +1,11 @@
 # import the pygame module, so you can use it
-import pygame
-from random import randint
 import time
+from random import randint
+
+import pygame
+
+import CatClass
+import MouseClass
 import maps
 
 # Creating some colors
@@ -56,135 +60,6 @@ class DMap:
         return imagine
 
 
-class Mouse:
-    def __init__(self, index, x, y):
-        self.x = x
-        self.y = y
-        self.max = maps.dimensions[index]
-
-    def moveDSF(self, detectedMap, stack):
-        stackLen = len(stack)
-        if self.x > 0 and (
-                detectedMap.surface[self.x - 1][self.y] == 0 or detectedMap.surface[self.x - 1][self.y] == -1):
-            stack.append([self.x - 1, self.y])
-        elif self.y < self.max - 1 and (
-                detectedMap.surface[self.x][self.y + 1] == 0 or detectedMap.surface[self.x][self.y + 1] == -1):
-            stack.append([self.x, self.y + 1])
-        elif self.x < self.max - 1 and (
-                detectedMap.surface[self.x + 1][self.y] == 0 or detectedMap.surface[self.x + 1][self.y] == -1):
-            stack.append([self.x + 1, self.y])
-        elif self.y > 0 and (
-                detectedMap.surface[self.x][self.y - 1] == 0 or detectedMap.surface[self.x][self.y - 1] == -1):
-            stack.append([self.x, self.y - 1])
-        newStackLen = len(stack)
-
-        if stackLen == newStackLen:
-            try:
-                # detectedMap.surface[self.x][self.y] = 2
-                newCoordinates = stack.pop()
-                newCoordinates = stack[-1]
-                self.x = newCoordinates[0]
-                self.y = newCoordinates[1]
-
-            except IndexError:
-                return 1
-        else:
-            newCoordinates = None
-            try:
-                newCoordinates = stack[-1]
-            except IndexError:
-                return 1
-            self.x = newCoordinates[0]
-            self.y = newCoordinates[1]
-
-    def moveBFS(self, detectedMap, queue):
-        if self.x > 0 and (
-                detectedMap.surface[self.x - 1][self.y] < 1):
-            queue.insert(0, [self.x - 1, self.y])
-        if self.y < self.max - 1 and (
-                detectedMap.surface[self.x][self.y + 1] < 1):
-            queue.insert(0, [self.x, self.y + 1])
-        if self.x < self.max - 1 and (
-                detectedMap.surface[self.x + 1][self.y] < 1):
-            queue.insert(0, [self.x + 1, self.y])
-        if self.y > 0 and (
-                detectedMap.surface[self.x][self.y - 1] < 1):
-            queue.insert(0, [self.x, self.y - 1])
-
-        try:
-            detectedMap.surface[self.x][self.y] = 2
-            newCoordinates = queue.pop(0)
-            print(newCoordinates)
-            self.x = newCoordinates[0]
-            self.y = newCoordinates[1]
-        except IndexError:
-            print("here")
-            return 1
-
-
-class Cat:
-    def __init__(self, index, x, y):
-        self.x = x
-        self.y = y
-        self.max = maps.dimensions[index]
-
-    def moveDSF(self, detectedMap, stack):
-        stackLen = len(stack)
-
-        if self.x > 0 and (
-                detectedMap.surface[self.x - 1][self.y] == 0 or detectedMap.surface[self.x - 1][self.y] == -1):
-            stack.append([self.x - 1, self.y])
-        elif self.y < self.max - 1 and (
-                detectedMap.surface[self.x][self.y + 1] == 0 or detectedMap.surface[self.x][self.y + 1] == -1):
-            stack.append([self.x, self.y + 1])
-        elif self.x < self.max - 1 and (
-                detectedMap.surface[self.x + 1][self.y] == 0 or detectedMap.surface[self.x + 1][self.y] == -1):
-            stack.append([self.x + 1, self.y])
-        elif self.y > 0 and (
-                detectedMap.surface[self.x][self.y - 1] == 0 or detectedMap.surface[self.x][self.y - 1] == -1):
-            stack.append([self.x, self.y - 1])
-
-        newStackLen = len(stack)
-
-        if stackLen == newStackLen:
-            try:
-                newCoordinates = stack.pop()
-                newCoordinates = stack[-1]
-                self.x = newCoordinates[0]
-                self.y = newCoordinates[1]
-            except IndexError:
-                return 1
-        else:
-            newCoordinates = None
-            try:
-                newCoordinates = stack[-1]
-            except IndexError:
-                return 1
-            self.x = newCoordinates[0]
-            self.y = newCoordinates[1]
-
-    def moveBFS(self, detectedMap, queue):
-        if self.x > 0 and (
-                detectedMap.surface[self.x - 1][self.y] == 0 or detectedMap.surface[self.x - 1][self.y] == -1):
-            queue.insert(0, [self.x - 1, self.y])
-        if self.y < self.max - 1 and (
-                detectedMap.surface[self.x][self.y + 1] == 0 or detectedMap.surface[self.x][self.y + 1] == -1):
-            queue.insert(0, [self.x, self.y + 1])
-        if self.x < self.max - 1 and (
-                detectedMap.surface[self.x + 1][self.y] == 0 or detectedMap.surface[self.x + 1][self.y] == -1):
-            queue.insert(0, [self.x + 1, self.y])
-        if self.y > 0 and (
-                detectedMap.surface[self.x][self.y - 1] == 0 or detectedMap.surface[self.x][self.y - 1] == -1):
-            queue.insert(0, [self.x, self.y - 1])
-        try:
-            newCoordinates = queue.pop(0)
-            print(newCoordinates)
-            self.x = newCoordinates[0]
-            self.y = newCoordinates[1]
-        except IndexError:
-            return 1
-
-
 def main(index):
 
     # we create the map
@@ -205,7 +80,7 @@ def main(index):
 
     mouseStack.append([mouseX, mouseY])
     mouseQueue.append([mouseX, mouseY])
-    mouse = Mouse(index, mouseX, mouseY)
+    mouse = MouseClass.Mouse(index, mouseX, mouseY)
 
     cheese = 2
 
@@ -217,7 +92,7 @@ def main(index):
 
     catStack.append([catX, catY])
     catQueue.append([catX, catY])
-    cat = Cat(index, catX, catY)
+    cat = CatClass.Cat(index, catX, catY)
 
     screen = pygame.display.set_mode((20 * (m.n - 1), 20 * m.n))
     screen.fill(WHITE)
@@ -234,14 +109,14 @@ def main(index):
             if event.type == pygame.QUIT:
                 running = False
         time.sleep(0.3)
-        # if mouse.moveDSF(m, mouseStack) == 1:
-        #     break
-        if mouse.moveBFS(m, mouseQueue) == 1:
+        if mouse.moveDSF(m, mouseStack) == 1:
             break
-        # if cat.moveDSF(m, catStack) == 1:
+        # if mouse.moveBFS(m, mouseQueue) == 1:
         #     break
-        if cat.moveBFS(m, catQueue) == 1:
+        if cat.moveDSF(m, catStack) == 1:
             break
+        # if cat.moveBFS(m, catQueue) == 1:
+        #     break
 
         if cat.x == mouse.x and cat.y == mouse.y:
             print("CAT WINS")
@@ -254,6 +129,7 @@ def main(index):
                 cheese -= 1
         mouseCurrentNodeCount += 0.5
         m.surface[mouse.x][mouse.y] = mouseCurrentNodeCount
+        m.surface[cat.x][cat.y] = mouseCurrentNodeCount
         screen.blit(m.image(mouse.x, mouse.y, cat.x, cat.y), (0, 0))
         pygame.display.flip()
 
