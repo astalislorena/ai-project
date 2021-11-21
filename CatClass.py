@@ -47,16 +47,16 @@ class Cat:
 
     def moveBFS(self, detectedMap, queue):
         if self.x > 0 and (
-                detectedMap.surface[self.x - 1][self.y] == 0 or detectedMap.surface[self.x - 1][self.y] == -1):
+                detectedMap.surface[self.x - 1][self.y] == 0):
             queue.insert(0, [self.x - 1, self.y])
         if self.y < self.max - 1 and (
-                detectedMap.surface[self.x][self.y + 1] == 0 or detectedMap.surface[self.x][self.y + 1] == -1):
+                detectedMap.surface[self.x][self.y + 1] == 0):
             queue.insert(0, [self.x, self.y + 1])
         if self.x < self.max - 1 and (
-                detectedMap.surface[self.x + 1][self.y] == 0 or detectedMap.surface[self.x + 1][self.y] == -1):
+                detectedMap.surface[self.x + 1][self.y] == 0):
             queue.insert(0, [self.x + 1, self.y])
         if self.y > 0 and (
-                detectedMap.surface[self.x][self.y - 1] == 0 or detectedMap.surface[self.x][self.y - 1] == -1):
+                detectedMap.surface[self.x][self.y - 1] == 0):
             queue.insert(0, [self.x, self.y - 1])
         try:
             newCoordinates = queue.pop(0)

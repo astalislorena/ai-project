@@ -64,6 +64,9 @@ def main(index):
 
     # we create the map
     m = DMap(index)
+    m1 = DMap(index)
+    m2 = DMap(index)
+    print(m, m1, m2)
 
     # initialize the pygame module
     pygame.init()
@@ -109,14 +112,14 @@ def main(index):
             if event.type == pygame.QUIT:
                 running = False
         time.sleep(0.3)
-        if mouse.moveDSF(m, mouseStack) == 1:
-            break
-        # if mouse.moveBFS(m, mouseQueue) == 1:
+        # if mouse.moveDSF(m, mouseStack) == 1:
         #     break
-        if cat.moveDSF(m, catStack) == 1:
+        if mouse.moveBFS(m1, mouseQueue) == 1:
             break
-        # if cat.moveBFS(m, catQueue) == 1:
+        # if cat.moveDSF(m, catStack) == 1:
         #     break
+        if cat.moveBFS(m2, catQueue) == 1:
+            break
 
         if cat.x == mouse.x and cat.y == mouse.y:
             print("CAT WINS")
@@ -127,9 +130,10 @@ def main(index):
                 running = False
             else:
                 cheese -= 1
+                m.surface[mouse.x][mouse.y] = 0
         mouseCurrentNodeCount += 0.5
-        m.surface[mouse.x][mouse.y] = mouseCurrentNodeCount
-        m.surface[cat.x][cat.y] = mouseCurrentNodeCount
+        # m.surface[mouse.x][mouse.y] = mouseCurrentNodeCount
+        # m.surface[cat.x][cat.y] = mouseCurrentNodeCount
         screen.blit(m.image(mouse.x, mouse.y, cat.x, cat.y), (0, 0))
         pygame.display.flip()
 
