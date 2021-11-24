@@ -24,7 +24,6 @@ class Agent:
         return mapImage
 
 
-
 class Map:
     def __init__(self, n=20, m=20):
         self.n = n

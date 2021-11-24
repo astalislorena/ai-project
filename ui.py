@@ -55,7 +55,7 @@ class UserInterface:
         pygame.init()
         logo = pygame.image.load("logo32x32.png")
         pygame.display.set_icon(logo)
-        pygame.display.set_caption("Path in simple environment")
+        pygame.display.set_caption("Mouse")
 
         self.screen = pygame.display.set_mode((level * 20, level * 20))
         self.screen.fill(WHITE)
@@ -127,7 +127,7 @@ class UserInterface:
             time.sleep(0.1)
             self.screen.blit(self.d.mapWithMouse(self.m.image()), (0, 0))
             catImg = pygame.image.load("cat.png")
-            self.screen.blit(catImg, (cat.x * 20, cat.y * 20))
+            self.screen.blit(catImg, (cat.y * 20, cat.x * 20))
             if cat.x == self.d.x and cat.y == self.d.y:
                 print("CAT WINS")
             pygame.display.flip()

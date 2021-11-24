@@ -1,9 +1,16 @@
+import pygame
+
 
 class Cat:
     def __init__(self, x, y):
         self.x = x
         self.y = y
         self.max = 20
+
+    def mapWithCat(self, mapImage):
+        mouse = pygame.image.load("cat.png")
+        mapImage.blit(mouse, (self.y * 20, self.x * 20))
+        return mapImage
 
     def moveDSF(self, detectedMap, stack):
         stackLen = len(stack)
