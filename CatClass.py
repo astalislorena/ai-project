@@ -26,15 +26,15 @@ class Cat:
         newStackLen = len(stack)
 
         if stackLen == newStackLen:
-            try:
+            # try:
                 detectedMap.surface[self.x][self.y] = 3
                 newCoordinates = stack.pop()
                 # newCoordinates = stack[-1]
                 self.x = newCoordinates[0]
                 self.y = newCoordinates[1]
-            except IndexError:
-                print("cat - here 1")
-                return 1
+            # except IndexError:
+            #     print("cat - here 1")
+            #     return 1
         else:
             newCoordinates = None
             try:
