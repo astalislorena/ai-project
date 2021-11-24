@@ -46,7 +46,7 @@ class Map:
         return string
 
     def image(self, colour=BLUE, background=WHITE):
-        imagine = pygame.Surface((400, 400))
+        imagine = pygame.Surface((self.n * 20, self.m * 20))
         brick = pygame.Surface((20, 20))
         path = pygame.Surface((20, 20))
         cheese = pygame.image.load("cheese.png")
@@ -59,7 +59,7 @@ class Map:
                     imagine.blit(brick, (j * 20, i * 20))
                 if self.surface[i][j] == 2:
                     imagine.blit(path, (j * 20, i * 20))
-                if self.surface[i][j] == 3:
+                if self.surface[i][j] == -1:
                     imagine.blit(cheese, (j * 20, i * 20))
 
         return imagine

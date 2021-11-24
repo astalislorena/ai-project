@@ -41,8 +41,7 @@ class Point:
 def BFS(map, startX, startY, destX, destY):
     if map.surface[startX][startY] == 1:
         return []
-    destinations = [[destX, destY], [0, 0], [9, 0]]
-    pointMap = [[0 for i in range(map.n)] for j in range(map.m)];
+    pointMap = [[0 for i in range(map.n)] for j in range(map.m)]
 
     for i in range(map.n):
         for j in range(map.m):

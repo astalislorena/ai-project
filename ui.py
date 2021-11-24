@@ -32,13 +32,16 @@ class UserInterface:
 
     def __init__(self, controller):
         self.controller = controller
-        self.startX = 19
+        level = self.askUserInputLevel()
+        self.initMapAndMouse(level)
+        self.initPyGame(level)
+        level -= 1
+        self.startX = level
         self.startY = 0
-        self.finishX = randint(0, 19)
-        self.finishY = randint(0, 19)
-        self.initMapAndDrone()
+        self.finishX = randint(0, level)
+        self.finishY = randint(0, level)
         path = self.askUserInputAnCalculatePath()
-        self.initPyGame()
+
         self.runGame(path)
 
     def displayWithPath(self, image, path):
@@ -52,21 +55,33 @@ class UserInterface:
         for item in list:
             yield item
 
-    def initPyGame(self):
+    def initPyGame(self, level):
         pygame.init()
         logo = pygame.image.load("logo32x32.png")
         pygame.display.set_icon(logo)
         pygame.display.set_caption("Path in simple environment")
 
-        self.screen = pygame.display.set_mode((400, 400))
+        self.screen = pygame.display.set_mode((level * 20, level * 20))
         self.screen.fill(WHITE)
 
-    def initMapAndDrone(self):
-        self.m = Map()
+    def initMapAndMouse(self, level):
+        self.m = Map(level, level)
         self.m.randomMap()
-        x = randint(0, 19)
-        y = randint(0, 19)
+        x = randint(0, level)
+        y = randint(0, level)
         self.d = Agent(x, y)
+
+    def askUserInputLevel(self):
+        choice = int(input("1. Level 1 (maze of 20)\n2. Level 2 (maze of 40)\n3. Level 3 (maze of 50)\n4.Exit\n"))
+        if choice == 1:
+            return 20
+        elif choice == 2:
+            return 40
+        elif choice == 3:
+            return 50
+        elif choice == 4:
+            exit()
+        return 20
 
     def askUserInputAnCalculatePath(self):
         choice = int(input("1.A*\n2.Greedy\n3.BFS\n4.Exit\n"))
@@ -86,8 +101,8 @@ class UserInterface:
 
         pathLength = len(path)
         stepNumber = 0
-        self.m.surface[self.startX][self.startY] = 3
-        self.m.surface[self.finishX][self.finishY] = 3
+        self.m.surface[self.startX][self.startY] = -1
+        self.m.surface[self.finishX][self.finishY] = -1
         cat = Cat(3, 10)
         catStack = [[3, 10]]
         catMap = self.m
