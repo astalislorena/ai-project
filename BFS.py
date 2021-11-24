@@ -54,9 +54,9 @@ def BFS(map, startX, startY, destX, destY):
 
     queue = [pointMap[startX][startY]]
 
-    foundDest = len(destinations)
+    foundDest = False
 
-    while len(queue) > 0 and foundDest > 0:
+    while len(queue) > 0 and not foundDest:
         currentNode = queue.pop(0)
         x = currentNode.x
         y = currentNode.y
@@ -66,8 +66,7 @@ def BFS(map, startX, startY, destX, destY):
             newY = y + pairCoord[1]
             if isValid(map, newX, newY) and map.surface[newX][newY] != 1:
                 if newX == destX and newY == destY:
-                    print(foundDest)
-                    foundDest -= 1
+                    foundDest = True
                     pointMap[newX][newY].parentX = x
                     pointMap[newX][newY].parentY = y
                     return traceBack(pointMap, destX, destY)
@@ -76,5 +75,5 @@ def BFS(map, startX, startY, destX, destY):
                     pointMap[newX][newY].parentX = x
                     pointMap[newX][newY].parentY = y
                     queue.append(pointMap[newX][newY])
-    if foundDest > 1:
+    if not foundDest:
         return []
