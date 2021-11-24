@@ -1,10 +1,6 @@
 # import the pygame module, so you can use it
 import random, pygame, time
-from pygame.locals import *
 from random import random, randint
-import numpy as np
-from AStar import AStar
-from Greedy import Greedy
 from Cat import Cat
 from Domain import Map
 from Domain import Agent
@@ -84,7 +80,7 @@ class UserInterface:
         return 20
 
     def askUserInputAnCalculatePath(self):
-        choice = int(input("1.A*\n2.Greedy\n3.BFS\n4.Exit\n"))
+        choice = int(input("1.A*\n2.Greedy\n3.BFS\n4.DFS\n5.Exit\n"))
         start_time = time.time()
         if choice == 1:
             path = self.controller.searchAStar(self.m, self.startX, self.startY, self.finishX, self.finishY)
@@ -93,6 +89,8 @@ class UserInterface:
         if choice == 3:
             path = self.controller.BFS(self.m, self.startX, self.startY, self.finishX, self.finishY)
         if choice == 4:
+            path = self.controller.DFS(self.m, self.startX, self.startY, self.finishX, self.finishY)
+        if choice == 5:
             exit()
         print("--- %s seconds ---" % (time.time() - start_time))
         return path

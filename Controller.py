@@ -2,6 +2,7 @@
 from AStar import AStar
 from Greedy import Greedy
 from BFS import BFS
+from DFS import DFS
 
 class Controller:
 
@@ -14,5 +15,9 @@ class Controller:
         return list
 
     def BFS(self, mapM, initialX, initialY, finalX, finalY):
+        list = BFS(mapM, initialX, initialY, finalX, finalY)
+        return list
+
+    def DFS(self, mapM, initialX, initialY, finalX, finalY):
         list = BFS(mapM, initialX, initialY, finalX, finalY)
         return list
