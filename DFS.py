@@ -55,7 +55,7 @@ def DFS(map, startX, startY, destX, destY):
 
     foundDest = False
 
-    while len(queue) > 0 and not foundDest:
+    while len(stack) > 0 and not foundDest:
         currentNode = stack.pop()
         x = currentNode.x
         y = currentNode.y

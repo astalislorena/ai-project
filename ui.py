@@ -80,12 +80,12 @@ class UserInterface:
         return 20
 
     def askUserInputAnCalculatePath(self):
-        choice = int(input("1.A*\n2.Greedy\n3.BFS\n4.DFS\n5.Exit\n"))
+        choice = int(input("1.A*\n2.Uniform Cost\n3.BFS\n4.DFS\n5.Exit\n"))
         start_time = time.time()
         if choice == 1:
             path = self.controller.searchAStar(self.m, self.startX, self.startY, self.finishX, self.finishY)
         if choice == 2:
-            path = self.controller.searchGreedy(self.m, self.startX, self.startY, self.finishX, self.finishY)
+            path = self.controller.uniformCost(self.m, self.startX, self.startY, self.finishX, self.finishY)
         if choice == 3:
             path = self.controller.BFS(self.m, self.startX, self.startY, self.finishX, self.finishY)
         if choice == 4:

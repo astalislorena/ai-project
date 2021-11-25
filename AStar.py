@@ -1,4 +1,5 @@
 import collections
+from math import sqrt
 
 v = [[-1, 0], [1, 0], [0, 1], [0, -1]]
 
@@ -6,6 +7,9 @@ v = [[-1, 0], [1, 0], [0, 1], [0, -1]]
 def calcHeuristic(currX, currY, destX, destY):
     return abs(currX - destX) + abs(currY - destY)
 
+
+def calcHeuristic2(currX, currY, destX, destY):
+    return sqrt(pow((destX - currX), 2) + pow((destY - currY), 2))
 
 def isValid(map, x, y):
     return 0 <= x < map.n and 0 <= y < map.m
@@ -47,7 +51,7 @@ def AStar(map, startX, startY, destX, destY):
 
     for i in range(map.n):
         for j in range(map.m):
-            pointMap[i][j] = Point(i, j, -1, -1, calcHeuristic(i, j, destX, destY))
+            pointMap[i][j] = Point(i, j, -1, -1, calcHeuristic2(i, j, destX, destY))
 
     pointMap[startX][startY].parentX = startX
     pointMap[startX][startY].parentY = startY

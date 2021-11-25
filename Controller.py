@@ -3,6 +3,7 @@ from AStar import AStar
 from Greedy import Greedy
 from BFS import BFS
 from DFS import DFS
+from UniformCost import UniformCost
 
 class Controller:
 
@@ -19,5 +20,9 @@ class Controller:
         return list
 
     def DFS(self, mapM, initialX, initialY, finalX, finalY):
-        list = BFS(mapM, initialX, initialY, finalX, finalY)
+        list = DFS(mapM, initialX, initialY, finalX, finalY)
+        return list
+
+    def uniformCost(self, mapM, initialX, initialY, finalX, finalY):
+        list = UniformCost(mapM, initialX, initialY, finalX, finalY)
         return list
