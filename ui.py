@@ -34,8 +34,8 @@ class UserInterface:
         level -= 1
         self.startX = level
         self.startY = 0
-        self.finishX = randint(0, level)
-        self.finishY = randint(0, level)
+        self.finishX = 0
+        self.finishY = level
         path = self.askUserInputAnCalculatePath()
 
         self.runGame(path)
@@ -63,8 +63,8 @@ class UserInterface:
     def initMapAndMouse(self, level):
         self.m = Map(level, level)
         self.m.randomMap()
-        x = randint(0, level)
-        y = randint(0, level)
+        x = level - 1
+        y = level - 1
         self.d = Agent(x, y)
 
     def askUserInputLevel(self):
@@ -80,7 +80,7 @@ class UserInterface:
         return 20
 
     def askUserInputAnCalculatePath(self):
-        choice = int(input("1.A*\n2.Uniform Cost\n3.BFS\n4.DFS\n5.Exit\n"))
+        choice = int(input("1.A*\n2.Uniform Cost\n3.DFS\n4.BFS\n5.Exit\n"))
         start_time = time.time()
         if choice == 1:
             path = self.controller.searchAStar(self.m, self.startX, self.startY, self.finishX, self.finishY)
